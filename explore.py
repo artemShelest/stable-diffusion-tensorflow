@@ -31,16 +31,20 @@ def main():
     print("Created converter")
     del diffusion_model
     gc.collect()
+    tf.keras.backend.clear_session()
     converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
     converter.representative_dataset = representative_dataset_gen
     gc.collect()
+    tf.keras.backend.clear_session()
     print("Started conversion")
     tflite_quant_model = converter.convert()
     print("Finished conversion")
     del converter
     gc.collect()
+    tf.keras.backend.clear_session()
     print("Started file write")
     open("diffusion_model.tflite", "wb").write(tflite_quant_model)
+
 
 if __name__ == "__main__":
     main()
